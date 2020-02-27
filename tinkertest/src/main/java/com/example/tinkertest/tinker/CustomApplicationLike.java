@@ -8,7 +8,7 @@ import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.loader.app.ApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 
-import androidx.multidex.MultiDex;
+//import androidx.multidex.MultiDex;
 
 /**
  * Tinker集成第三步，定义CustomApplicationLike，完成Tinker初始化，通过注解生成Application
@@ -38,7 +38,7 @@ public class CustomApplicationLike extends ApplicationLike {
         super.onBaseContextAttached(base);
 
         //使应用支持分包(如果应用不支持分包，可以不调用)
-        MultiDex.install(base);
+//        MultiDex.install(base);
 
         TinkerManager.installTinker(this);
     }
