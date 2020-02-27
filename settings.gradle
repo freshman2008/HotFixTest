@@ -1,0 +1,3 @@
+rootProject.name='HotFixTest'
+include ':app'
+include ':tinkertest'
