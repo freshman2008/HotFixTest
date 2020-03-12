@@ -5,7 +5,7 @@ def bakPath = file("${buildDir}/bakApk")
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.example.tinkertest"
@@ -66,10 +66,10 @@ dependencies {
 
 ext {
     tinkerEnable = true
-    tinkerOldApkPath = "${bakPath}/tinkertest-release-0227-17-29-16.apk"
+    tinkerOldApkPath = "${bakPath}/tinkertest-release-0312-14-32-02.apk"
     tinkerID = "1.0"
     tinkerApplyMappingPath = "${bakPath}/"
-    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-release-0227-17-29-16-R.txt"
+    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-release-0312-14-32-02-R.txt"
 }
 
 def buildWithTinker() {
@@ -102,7 +102,7 @@ if (buildWithTinker()) {
         oldApk = getOldApkPath()
 
         //不忽略tinker的警告，有则中止patch文件的生成
-        ignoreWarning = false
+        ignoreWarning = true
 
         //强制patch文件也使用签名
         useSign = true
@@ -138,7 +138,7 @@ if (buildWithTinker()) {
 
         res {
             //指定tinker可以修改的资源文件路径
-            pattern = ["res/*", "assets/*", "resources.arcs", "AndroidManifest.xml"]
+            pattern = ["res/*", "assets/*", "resources.arsc", "AndroidManifest.xml"]
 
             //指定不受影响的资源路径
             ignoreChange = ["assets/sample_meta.txt"]

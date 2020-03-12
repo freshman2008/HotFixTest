@@ -12,12 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="loadPatch"
-        android:text="加载Patch包" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="测试按钮" />
+        android:text="加载Patch包222" />
 
 </LinearLayout>
