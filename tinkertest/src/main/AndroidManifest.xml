@@ -17,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="TINKER_ID"
-            android:value="tinker_id_6235657"/>
     </application>
+
+    <meta-data
+        android:name="TINKER_ID"
+        android:value="tinker_id_6235657"/>
 
 </manifest>
