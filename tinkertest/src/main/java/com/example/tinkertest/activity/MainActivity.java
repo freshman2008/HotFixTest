@@ -1,14 +1,15 @@
 package com.example.tinkertest.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.tinkertest.R;
 import com.example.tinkertest.tinker.TinkerManager;
 
 import java.io.File;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String SUFFIX = ".apk";
