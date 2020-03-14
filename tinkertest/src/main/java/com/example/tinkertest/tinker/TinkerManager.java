@@ -2,9 +2,9 @@ package com.example.tinkertest.tinker;
 
 import android.content.Context;
 
+import com.tencent.tinker.entry.ApplicationLike;
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
-import com.tencent.tinker.loader.app.ApplicationLike;
 
 /**
  * Tinker集成第二步，定义TinkerManager封装Tinker初始化方法等

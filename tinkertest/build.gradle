@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 //指定基准文件存放位置
-def bakPath = file("${buildDir}/bakApk")
+def bakPath = file("${rootDir}/bakApk")
 
 android {
     compileSdkVersion 28
@@ -21,13 +21,13 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\lixiulia\\Videos\\work\\HotFixTest\\mytest.jks')
+            storeFile file('mytest.jks')
             storePassword 'test123456'
             keyAlias = 'key0'
             keyPassword 'test123456'
         }
         release {
-            storeFile file('C:\\Users\\lixiulia\\Videos\\work\\HotFixTest\\mytest.jks')
+            storeFile file('mytest.jks')
             storePassword 'test123456'
             keyAlias = 'key0'
             keyPassword 'test123456'
@@ -36,6 +36,13 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable = true
+            jniDebuggable = true
+            signingConfig signingConfigs.release
+        }
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable = true
@@ -66,10 +73,10 @@ dependencies {
 
 ext {
     tinkerEnable = true
-    tinkerOldApkPath = "${bakPath}/tinkertest-release-0312-14-32-02.apk"
+    tinkerOldApkPath = "${bakPath}/tinkertest-debug-0314-13-01-45.apk"
     tinkerID = "1.0"
     tinkerApplyMappingPath = "${bakPath}/"
-    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-release-0312-14-32-02-R.txt"
+    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-debug-0314-13-01-45-R.txt"
 }
 
 def buildWithTinker() {
