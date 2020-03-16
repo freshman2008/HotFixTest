@@ -1,4 +1,4 @@
-package com.example.tinkertest.tinker;
+package com.example.fixlib.tinker;
 
 import android.app.Application;
 import android.content.Context;

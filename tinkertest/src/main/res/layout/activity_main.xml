@@ -15,15 +15,15 @@
         android:text="加载Patch包" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button1" />
+        android:text="hello" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button2" />
+        android:text="what" />
 
 </LinearLayout>

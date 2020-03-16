@@ -3,7 +3,7 @@
     package="com.example.tinkertest">
 
     <application
-        android:name=".tinker.MyTinkerApplication"
+        android:name="com.example.fixlib.tinker.MyTinkerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,10 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="com.example.fixlib.service.MyService"></service>
     </application>
 
-    <meta-data
-        android:name="TINKER_ID"
-        android:value="tinker_id_6235657"/>
+<!--    <meta-data-->
+<!--        android:name="TINKER_ID"-->
+<!--        android:value="tinker_id_6235657"/>-->
 
 </manifest>

@@ -1,15 +1,16 @@
 package com.example.tinkertest.activity;
 
-
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.fixlib.service.MyService;
+import com.example.fixlib.tinker.TinkerManager;
 import com.example.tinkertest.R;
-import com.example.tinkertest.tinker.TinkerManager;
 
 import java.io.File;
 
@@ -17,6 +18,7 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
     private static final String SUFFIX = ".apk";
     private String mPathDir;
+//    public static Handler mHandler = null;
 
     //Android6.0以上读写sd卡需要动态申请权限
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -29,25 +31,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
+        startPatchService();
 
+//        mHandler = new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                if (msg.what == 1001) {
+//                    Log.d("hello", "startPatchService");
+//                    startPatchService();
+//                }
+//            }
+//        };
+    }
+
+    public void loadPatch(View view) {
         mPathDir = getExternalCacheDir().getAbsolutePath() + "/tpatch";
         File file = new File(mPathDir);
         if (file == null || !file.exists()) {
             file.mkdir();
         }
+        TinkerManager.loadPatch(mPathDir.concat("/hs").concat(SUFFIX));
     }
 
-    public void loadPatch(View view) {
-        TinkerManager.loadPatch(getPatchName());
-    }
-
-    /**
-     * 构造Patch文件名
-     *
-     * @return
-     */
-    private String getPatchName() {
-        return mPathDir.concat("/hs").concat(SUFFIX);
+    public void startPatchService() {
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
     }
 
     /*
