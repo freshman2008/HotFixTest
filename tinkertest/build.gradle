@@ -8,7 +8,7 @@ android {
     buildToolsVersion "28.0.3"
 
     defaultConfig {
-        applicationId "com.example.tinkertest"
+        applicationId "com.hs.test002"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -17,8 +17,16 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 //        multiDexEnabled true
+        manifestPlaceholders = [
+                JPUSH_APPKEY : "4f00cf10d97af9d23bef81e0",//值来自开发者平台取得的AppKey
+                JPUSH_CHANNEL: "default_developer",
+        ]
     }
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     signingConfigs {
         debug {
             storeFile file('mytest.jks')
@@ -54,30 +62,30 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-/*    //Tinker集成第一步
-    //生成application使用
-    compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}")
-    annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") //不添加这句会出现Annotation processors must be explicitly declared now. 编译错误
-    //tinker的核心sdk库
-    implementation("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}")*/
+    /*    //Tinker集成第一步
+        //生成application使用
+        compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}")
+        annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") //不添加这句会出现Annotation processors must be explicitly declared now. 编译错误
+        //tinker的核心sdk库
+        implementation("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}")*/
     implementation project(path: ':fixlib')
-//    implementation('com.android.support:multidex:1.0.1')
+    //    implementation('com.android.support:multidex:1.0.1')
+    implementation files('libs/jcore-android-2.1.6.jar')
+    implementation files('libs/jpush-android-3.3.8.jar')
 }
 
 ext {
     tinkerEnable = true
-    tinkerOldApkPath = "${bakPath}/tinkertest-debug-0316-11-50-13.apk"
+    tinkerOldApkPath = "${bakPath}/tinkertest-debug-0316-15-25-18.apk"
     tinkerID = "1.0"
     tinkerApplyMappingPath = "${bakPath}/"
-    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-debug-0316-11-50-13-R.txt"
+    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-debug-0316-15-25-18-R.txt"
 }
 
 def buildWithTinker() {
@@ -170,6 +178,7 @@ if (buildWithTinker()) {
 
     /**
      * bak apk and mapping
+     * 复制基准包和其他必须文件到指定目录
      */
     android.applicationVariants.all { variant ->
         /**

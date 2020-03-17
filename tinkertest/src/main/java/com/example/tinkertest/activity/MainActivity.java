@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.example.fixlib.service.MyService;
@@ -14,11 +17,13 @@ import com.example.tinkertest.R;
 
 import java.io.File;
 
+import cn.jpush.android.api.JPushInterface;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String SUFFIX = ".apk";
     private String mPathDir;
-//    public static Handler mHandler = null;
+    public static Handler mHandler = null;
 
     //Android6.0以上读写sd卡需要动态申请权限
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -30,19 +35,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initJPush();
         verifyStoragePermissions(this);
-        startPatchService();
+//        startPatchService();
 
-//        mHandler = new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {
-//                super.handleMessage(msg);
-//                if (msg.what == 1001) {
-//                    Log.d("hello", "startPatchService");
-//                    startPatchService();
-//                }
-//            }
-//        };
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 1001) {
+                    Log.d("hello", "startPatchService");
+                    startPatchService();
+                }
+            }
+        };
+    }
+
+    private void initJPush() {
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
     }
 
     public void loadPatch(View view) {
