@@ -19,6 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#tinker相关混淆规则
 -keep public class * implements com.tencent.tinker.loader.app.ApplicationLifeCycle {
     <init>();
     void onBaseContextAttached(android.content.Context);
@@ -44,4 +46,19 @@
 
 -keep class com.tencent.tinker.loader.** {
     <init>();
+}
+
+#友盟相关混淆规则
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+#-keep public class [您的应用包名].R$*{
+-keep public class com.hs.test002.R$*{
+    public static final int *;
 }

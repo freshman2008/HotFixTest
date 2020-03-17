@@ -13,6 +13,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        // Specifies a flavor dimension.
+        flavorDimensions "versionCode"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -20,6 +22,7 @@ android {
         manifestPlaceholders = [
                 JPUSH_APPKEY : "4f00cf10d97af9d23bef81e0",//值来自开发者平台取得的AppKey
                 JPUSH_CHANNEL: "default_developer",
+                UMENG_APPKEY : "5e703210895cca49600001b3",//值来自开发者平台取得的AppKey
         ]
     }
     sourceSets {
@@ -42,6 +45,19 @@ android {
         }
     }
 
+    productFlavors {
+        googleplayer {
+            dimension "versionCode"
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "googleplayer"]
+        }
+        baidu {
+            dimension "versionCode"
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
+        }
+        productFlavors.all {
+            flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -78,14 +94,20 @@ dependencies {
     //    implementation('com.android.support:multidex:1.0.1')
     implementation files('libs/jcore-android-2.1.6.jar')
     implementation files('libs/jpush-android-3.3.8.jar')
+
+    //友盟集成
+    implementation  'com.umeng.umsdk:analytics:8.0.0'
+    implementation  'com.umeng.umsdk:common:2.0.0'
+    implementation  'com.umeng.umsdk:utdid:1.1.5.3'
 }
 
 ext {
     tinkerEnable = true
-    tinkerOldApkPath = "${bakPath}/tinkertest-debug-0316-15-25-18.apk"
+    tinkerOldApkPath = "${bakPath}/tinkertest-0317-10-42-21"
     tinkerID = "1.0"
-    tinkerApplyMappingPath = "${bakPath}/"
-    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-debug-0316-15-25-18-R.txt"
+    tinkerApplyMappingPath = "${bakPath}/tinkertest-0317-10-42-21"
+    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-0317-10-42-21"
+    tinkerBuildFlavorDirectory = "${bakPath}/tinkertest-0317-10-42-21"
 }
 
 def buildWithTinker() {
@@ -106,6 +128,10 @@ def getApplyResourceMappingPath() {
 
 def getTinkerIdValue() {
     return ext.tinkerID;
+}
+
+def getTinkerBuildFlavorDirectory() {
+    return ext.tinkerBuildFlavorDirectory;
 }
 
 if (buildWithTinker()) {
@@ -229,6 +255,43 @@ if (buildWithTinker()) {
                         rename { String fileName ->
                             fileName.replace("R.txt", "${newFileNamePrefix}-R.txt")
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    project.afterEvaluate {
+        //sample use for build all flavor for one time
+        if (hasFlavors) {
+            task(tinkerPatchAllFlavorRelease) {
+                group = 'tinker'
+                def originOldPath = getTinkerBuildFlavorDirectory()
+                for (String flavor : flavors) {
+                    def tinkerTask = tasks.getByName("tinkerPatch${flavor.capitalize()}Release")
+                    dependsOn tinkerTask
+                    def preAssembleTask = tasks.getByName("process${flavor.capitalize()}ReleaseManifest")
+                    preAssembleTask.doFirst {
+                        String flavorName = preAssembleTask.name.substring(7, 8).toLowerCase() + preAssembleTask.name.substring(8, preAssembleTask.name.length() - 15)
+                        project.tinkerPatch.oldApk = "${originOldPath}/${flavorName}/${project.name}-${flavorName}-release.apk"
+                        project.tinkerPatch.buildConfig.applyMapping = "${originOldPath}/${flavorName}/${project.name}-${flavorName}-release-mapping.txt"
+                        project.tinkerPatch.buildConfig.applyResourceMapping = "${originOldPath}/${flavorName}/${project.name}-${flavorName}-release-R.txt"
+                    }
+                }
+            }
+
+            task(tinkerPatchAllFlavorDebug) {
+                group = 'tinker'
+                def originOldPath = getTinkerBuildFlavorDirectory()
+                for (String flavor : flavors) {
+                    def tinkerTask = tasks.getByName("tinkerPatch${flavor.capitalize()}Debug")
+                    dependsOn tinkerTask
+                    def preAssembleTask = tasks.getByName("process${flavor.capitalize()}DebugManifest")
+                    preAssembleTask.doFirst {
+                        String flavorName = preAssembleTask.name.substring(7, 8).toLowerCase() + preAssembleTask.name.substring(8, preAssembleTask.name.length() - 13)
+                        project.tinkerPatch.oldApk = "${originOldPath}/${flavorName}/${project.name}-${flavorName}-debug.apk"
+                        project.tinkerPatch.buildConfig.applyMapping = "${originOldPath}/${flavorName}/${project.name}-${flavorName}-debug-mapping.txt"
+                        project.tinkerPatch.buildConfig.applyResourceMapping = "${originOldPath}/${flavorName}/${project.name}-${flavorName}-debug-R.txt"
                     }
                 }
             }
