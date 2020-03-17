@@ -20,7 +20,7 @@ android {
 
 //        multiDexEnabled true
         manifestPlaceholders = [
-                JPUSH_APPKEY : "4f00cf10d97af9d23bef81e0",//值来自开发者平台取得的AppKey
+                JPUSH_APPKEY : "ab61280f017e6a1446cbde40",//值来自开发者平台取得的AppKey
                 JPUSH_CHANNEL: "default_developer",
                 UMENG_APPKEY : "5e703210895cca49600001b3",//值来自开发者平台取得的AppKey
         ]
@@ -103,11 +103,11 @@ dependencies {
 
 ext {
     tinkerEnable = true
-    tinkerOldApkPath = "${bakPath}/tinkertest-0317-10-42-21"
+    tinkerOldApkPath = "${bakPath}/tinkertest-0317-15-50-00"
     tinkerID = "1.0"
-    tinkerApplyMappingPath = "${bakPath}/tinkertest-0317-10-42-21"
-    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-0317-10-42-21"
-    tinkerBuildFlavorDirectory = "${bakPath}/tinkertest-0317-10-42-21"
+    tinkerApplyMappingPath = "${bakPath}/tinkertest-0317-15-50-00"
+    tinkerApplyResourceMappingPath = "${bakPath}/tinkertest-0317-15-50-00"
+    tinkerBuildFlavorDirectory = "${bakPath}/tinkertest-0317-15-50-00"
 }
 
 def buildWithTinker() {

@@ -211,6 +211,12 @@
         <!-- 友盟统计相关meta-data -->
         <meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY}"/>
         <meta-data android:name="UMENG_CHANNEL" android:value="${UMENG_CHANNEL_VALUE}"/>
+
+        <!-- Tinker的Patch结果处理自定义service，在此做注册 -->
+        <service
+            android:name="com.example.fixlib.tinker.CustomResultService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
     </application>
 
 <!--    手动生成补丁包需要配置TINKER_ID-->

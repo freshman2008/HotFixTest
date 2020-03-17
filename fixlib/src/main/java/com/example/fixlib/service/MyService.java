@@ -85,8 +85,9 @@ public class MyService extends IntentService {
             @Override
             public void onDownloadSuccess(File file) {
                 Log.i("hello", "加载补丁包:" + file.getAbsolutePath());
+                mPatchFile = file.getAbsolutePath();
 //                AndFixPatchManager.getInstance().addPatch(file.getAbsolutePath());
-                TinkerManager.loadPatch(file.getAbsolutePath());
+                TinkerManager.loadPatch(mPatchFile, mBasePatchInfo.data.md5);
             }
 
             @Override

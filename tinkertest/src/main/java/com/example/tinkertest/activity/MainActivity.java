@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.fixlib.service.MyService;
 import com.example.fixlib.tinker.TinkerManager;
+import com.example.fixlib.util.Utils;
 import com.example.tinkertest.R;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -72,14 +73,14 @@ public class MainActivity extends AppCompatActivity {
         JPushInterface.init(this);     		// 初始化 JPush
     }
 
-    public void loadPatch(View view) {
+/*    public void loadPatch(View view) {
         mPathDir = getExternalCacheDir().getAbsolutePath() + "/tpatch";
         File file = new File(mPathDir);
         if (file == null || !file.exists()) {
             file.mkdir();
         }
-        TinkerManager.loadPatch(mPathDir.concat("/hs").concat(SUFFIX));
-    }
+        TinkerManager.loadPatch(mPathDir.concat("/hs").concat(SUFFIX), null);
+    }*/
 
     public void startPatchService() {
         Intent intent = new Intent(this, MyService.class);
@@ -101,5 +102,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utils.setBackground(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.setBackground(false);
     }
 }
