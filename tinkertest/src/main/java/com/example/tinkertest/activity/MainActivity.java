@@ -14,6 +14,8 @@ import android.view.View;
 import com.example.fixlib.service.MyService;
 import com.example.fixlib.tinker.TinkerManager;
 import com.example.tinkertest.R;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.File;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initJPush();
+        initUMeng();
         verifyStoragePermissions(this);
 //        startPatchService();
 
@@ -49,6 +52,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private void initUMeng() {
+        // 初始化SDK
+        UMConfigure.init(this, "5e703210895cca49600001b3", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
+        // 选用AUTO页面采集模式
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        /**
+         * 设置组件化的Log开关
+         * 参数: boolean 默认为false，如需查看LOG设置为true
+         */
+        UMConfigure.setLogEnabled(true);
     }
 
     private void initJPush() {
