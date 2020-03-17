@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.fixlib.tinker.TinkerManager;
 import com.example.fixlib.util.OnCommonResponse;
 import com.example.fixlib.util.OnDownloadListener;
+import com.example.fixlib.util.Utils;
 
 import java.io.File;
 
@@ -18,7 +19,7 @@ public class MyService extends IntentService {
     private String mPatchFileDir;
     private String mPatchFile;
     private static final String SUFFIX = ".apk";
-
+    private Context mContext;
     private BasePatch mBasePatchInfo;
 
     /**
@@ -31,6 +32,7 @@ public class MyService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
         init();
     }
 
@@ -63,6 +65,10 @@ public class MyService extends IntentService {
             @Override
             public void onSuccess(String data) {
                 mBasePatchInfo = JSON.parseObject(data, BasePatch.class);
+                if (!mBasePatchInfo.data.versionName.equals(Utils.getVersionName(mContext))) {
+                    Log.i("hello", " patch版本与应用版本不同.");
+                    return;
+                }
                 if (!TextUtils.isEmpty(mBasePatchInfo.data.downloadUrl)) {
                     Log.i("hello", " 开始下载patch文件, url:" + mBasePatchInfo.data.downloadUrl);
                     downloadPatch(mBasePatchInfo.data.downloadUrl);
